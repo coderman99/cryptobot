@@ -33,3 +33,10 @@ INSERT INTO crypto_price_metrics (
     ((SELECT id FROM cryptocurrencies WHERE symbol = 'ADA'), '2024-04-22', 'weekly', 0.61, 0.55, 0.70, 0.40, 0.63),
     -- Cardano monthly sample
     ((SELECT id FROM cryptocurrencies WHERE symbol = 'ADA'), '2024-04-30', 'monthly', 0.64, 0.53, 0.75, 0.35, 0.59);
+
+-- Sample market sentiment values
+INSERT INTO market_sentiment (record_date, fear_greed_index) VALUES
+    ('2024-04-15', 61),
+    ('2024-04-22', 58),
+    ('2024-04-30', 55)
+ON CONFLICT(record_date) DO UPDATE SET fear_greed_index=excluded.fear_greed_index;

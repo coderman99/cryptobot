@@ -23,3 +23,9 @@ CREATE TABLE IF NOT EXISTS crypto_price_metrics (
     UNIQUE (cryptocurrency_id, interval, record_date),
     FOREIGN KEY (cryptocurrency_id) REFERENCES cryptocurrencies(id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS market_sentiment (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    record_date DATE NOT NULL UNIQUE,
+    fear_greed_index INTEGER NOT NULL CHECK (fear_greed_index BETWEEN 0 AND 100)
+);
