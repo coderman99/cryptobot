@@ -6,6 +6,7 @@ This repository contains SQL files to create and populate a database that stores
 - `db/schema.sql`: Creates the `cryptocurrencies` table and the `crypto_price_metrics` table with fields for price, EMA, Bollinger Bands, and Stoch RSI at daily, weekly, and monthly intervals. Also defines the `market_sentiment` table for the overall crypto Fear & Greed index.
 - `db/seed_data.sql`: Inserts sample cryptocurrencies and example metrics covering each interval, plus a few sample Fear & Greed index values.
 - `scripts/fetch_coingecko_data.py`: Fetches six years of price history for supported assets from CoinGecko, computes indicators, and loads them alongside historical Fear & Greed values (retrieved from alternative.me).
+- `scripts/predict_trades.py`: Simulates a rule-based strategy that issues buy/sell predictions and profit estimates over a one-year window (or custom lookback) using the stored indicators.
 - `requirements.txt`: Minimal dependencies (pandas, requests) needed to run the fetch script.
 
 ## Usage
@@ -51,3 +52,16 @@ Key flags:
 - `--days` controls how many trailing days to request (default: ~6 years).
 - `--vs-currency` sets the quote currency for CoinGecko requests (default: usd).
 - `--pause` adds a delay between CoinGecko requests to stay under rate limits (default: 1 second).
+
+### Generate buy/sell predictions over the last year
+
+Use the stored indicators to simulate trades (default: $1000 capital, one-year window) for a given asset, including profit and holding duration between the predicted buy and sell points:
+
+```bash
+python scripts/predict_trades.py --database cryptobot.db --symbol BTC
+```
+
+Helpful flags:
+
+- `--lookback-days` to change the horizon (default: 365).
+- `--capital` to change the starting allocation (default: 1000).
